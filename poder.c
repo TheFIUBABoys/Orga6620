@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define TAM_INI_CADENA 40
 
@@ -53,17 +54,40 @@ void invertirLinea(char* linea){
 }
 
 
-int main(){
-	FILE* ejemplo = fopen("ejemplo","r");
+int main(int argc, char** argv){
+	//FILE* ejemplo = fopen("ejemplo","r");	
+	int nFiles = argc - 1;
+	FILE* file;
+	bool noFile = false;
+
+
+	if (nFiles == 0){
+		file = stdin;
+		nFiles = 1;
+		noFile = true;
+	}
 	
-	while (!feof(ejemplo)){
-		char* s=leerLinea(ejemplo);
-		invertirLinea(s);
-		if (s){
-			printf("%s\n",s);
-			free(s);
+	int i = 0;
+	
+	while (i < nFiles){
+		if (! noFile){
+			file = fopen(argv[i+1],"r");
+		}
+		
+		while (!feof(file)){
+			char* s=leerLinea(file);
+			invertirLinea(s);
+			if (s){
+				printf("%s\n",s);
+				free(s);
+			}
+		}
+		
+		i++;
+		if (! noFile){
+			fclose(file);
 		}
 	}
-	fclose(ejemplo);
+	
 	return 0;
 }
