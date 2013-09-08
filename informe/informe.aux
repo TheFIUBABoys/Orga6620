@@ -3,21 +3,18 @@
 \catcode`<\active
 \catcode`>\active
 \@nameuse{es@quoting}
-\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
-\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
-\global\let\oldcontentsline\contentsline
-\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
-\global\let\oldnewlabel\newlabel
-\gdef\newlabel#1#2{\newlabelxx{#1}#2}
-\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
-\AtEndDocument{\ifx\hyper@anchor\@undefined
-\let\contentsline\oldcontentsline
-\let\newlabel\oldnewlabel
-\fi}
-\fi}
-\global\let\hyper@last\relax 
-\gdef\HyperFirstAtBeginDocument#1{#1}
-\providecommand\HyField@AuxAddToFields[1]{}
+\ifx\hyper@anchor\@undefined
+\global \let \oldcontentsline\contentsline
+\gdef \contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global \let \oldnewlabel\newlabel
+\gdef \newlabel#1#2{\newlabelxx{#1}#2}
+\gdef \newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\let \contentsline\oldcontentsline
+\let \newlabel\oldnewlabel}
+\else
+\global \let \hyper@last\relax 
+\fi
+
 \select@language{spanish}
 \@writefile{toc}{\select@language{spanish}}
 \@writefile{lof}{\select@language{spanish}}
@@ -33,7 +30,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Corrida con entrada de stdin}{3}{subsection.5.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}C\'odigo fuente}{4}{section.6}}
 \@writefile{lol}{\contentsline {lstlisting}{../main.c}{4}{lstlisting.-1}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}C\'odigo MIPS32}{5}{section.7}}
-\@writefile{lol}{\contentsline {lstlisting}{../fuente.mips}{5}{lstlisting.-2}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}C\'odigo MIPS32}{6}{section.7}}
+\@writefile{lol}{\contentsline {lstlisting}{../fuente.mips}{6}{lstlisting.-2}}
 \@writefile{toc}{\contentsline {section}{\numberline {8}Conclusiones}{13}{section.8}}
 \@writefile{toc}{\contentsline {section}{\numberline {9}Enunciado}{13}{section.9}}
