@@ -66,7 +66,15 @@ int main(int argc, char** argv){
 		nFiles = 1;
 		noFile = true;
 	}
-	
+	else if (strcmp(argv[1],"-h")==0 && (nFiles==1)){
+		printf("Usage:\ntp0 -h\ntp0 -V\ntp0 [file...]\nOptions:\n-V, --version  Print version and quit.\n-h, --help  Print this information and quit.\nExamples:\ntp0 foo.txt bar.txt\ntp0 gz.txt\n");
+		return 0;		
+		}
+	else if (strcmp(argv[1],"-V")==0 && (nFiles==1)){
+		printf("Tp0 Version 1.0");
+		return 0;		
+		}
+
 	int i = 0;
 	
 	while (i < nFiles){
@@ -74,17 +82,21 @@ int main(int argc, char** argv){
 			file = fopen(argv[i+1],"r");
 		}
 		
-		while (!feof(file)){
-			char* s=leerLinea(file);
-			invertirLinea(s);
-			if (s){
-				printf("%s\n",s);
-				free(s);
+		if(!file){
+			fprintf(stderr,"File %s not found\n",argv[i+1]);
+		}
+		else{
+			while (!feof(file)){
+				char* s=leerLinea(file);
+				invertirLinea(s);
+				if (s){
+					printf("%s\n",s);
+					free(s);
+				}
 			}
 		}
-		
 		i++;
-		if (! noFile){
+		if (! noFile && file){
 			fclose(file);
 		}
 	}
