@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 #define TAM_INI_CADENA 40
 
@@ -15,13 +16,17 @@ char* leerLinea(FILE* archivo,int* largo){
     char letra;
     do {
         letra = fgetc(archivo);
+	if (!letra){
+		fprintf(stderr,"An error has occurred while reading file. The program will exit now.");
+		exit(3);
+	}
         linea[i]=letra;
         if (tam==i+1){
-            tam+=10;
+            tam=(int) pow((double) tam,1.51);
             char *aux=(char*) realloc(linea,sizeof(char)*tam);
             if (!aux) {
-                linea[i]='\0';
-                return linea;
+                fprintf(stderr,"An error has occurred while reading file. The program will exit now.");
+		exit(2);
             } else {
                 linea=aux;
             }
@@ -85,17 +90,16 @@ int main(int argc, char** argv){
 		}
 		
 		if(!file){
-			fprintf(stderr,"File %s not found\n",argv[i+1]);
-		}
-		else{
-			while (!feof(file)){
-				int largo = 0;
-				char* s=leerLinea(file,&largo);
-				invertirLinea(s,largo);
-				if (s){
-					printf("%s\n",s);
-					free(s);
-				}
+			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
+			exit(1);
+		} else
+		while (!feof(file)){
+			int largo = 0;
+			char* s=leerLinea(file,&largo);
+			invertirLinea(s,largo);
+			if (s){
+				printf("%s\n",s);
+				free(s);
 			}
 		}
 		i++;
