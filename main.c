@@ -7,9 +7,11 @@
 
 
 //Lee una linea de tamanio arbitrario. Devuelve NULL al llegar a EOF
-char* leerLinea(FILE* archivo){
+char* leerLinea(FILE* archivo,int* largo){
     int tam = TAM_INI_CADENA,i=0;
     char *linea = (char*)malloc(sizeof(char)*tam);
+    if (!linea)
+    	return NULL;
     char letra;
     do {
         letra = fgetc(archivo);
@@ -32,14 +34,14 @@ char* leerLinea(FILE* archivo){
  		free(linea);
  		return NULL;
  	}
+ 	*largo=i-1;
     return linea;
 }
 
 
-void invertirLinea(char* linea){
+void invertirLinea(char* linea,int len){
     if (!linea)
 	return;
-    int len = strlen(linea);
     int i = 0;
     int l = len-1;
     while (l > i){
@@ -87,8 +89,9 @@ int main(int argc, char** argv){
 		}
 		else{
 			while (!feof(file)){
-				char* s=leerLinea(file);
-				invertirLinea(s);
+				int largo = 0;
+				char* s=leerLinea(file,&largo);
+				invertirLinea(s,largo);
 				if (s){
 					printf("%s\n",s);
 					free(s);
