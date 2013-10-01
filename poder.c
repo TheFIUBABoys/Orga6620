@@ -2,46 +2,48 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <math.h>
 
 #define TAM_INI_CADENA 40
-
+#define MALLOC_ERROR 1
+#define REALLOC_ERROR 2
+#define FGETC 3
 
 //Lee una linea de tamanio arbitrario. Devuelve NULL al llegar a EOF
-char* leerLinea(FILE* archivo){
+int leerLinea(FILE* archivo, char** linea,int* size){
     int tam = TAM_INI_CADENA,i=0;
-    char *linea = (char*)malloc(sizeof(char)*tam);
+    *linea = (char*)malloc(sizeof(char)*tam);
+    if(!(*linea))
+    	return MALLOC_ERROR;
     char letra;
     do {
         letra = fgetc(archivo);
-        linea[i]=letra;
+        if(ferror(archivo)!=0)
+        	return FGETC;
+        (*linea)[i]=letra;
         if (tam==i+1){
-            tam+=10;
-            char *aux=(char*) realloc(linea,sizeof(char)*tam);
+        	tam=(int) pow((double) tam,1.51);
+            char *aux=(char*) realloc(*linea,sizeof(char)*tam);
             if (!aux) {
-                linea[i]='\0';
-                return linea;
+            	return REALLOC_ERROR;
             } else {
-                linea=aux;
+                *linea=aux;
             }
         }
         i++;
     } while (letra!='\n' && letra!=EOF);
-    linea[i-1]='\0';
-    
- 	if (i-1 == 0 ){
- 		free(linea);
- 		return NULL;
- 	}
-    return linea;
+    *size=i;
+    return 0;
 }
 
 
-void invertirLinea(char* linea){
-    if (!linea)
+void invertirLinea(char* linea,int len){
+	if (!linea || len<3)
 	return;
-    int len = strlen(linea);
+    //int len = strlen(linea);
     int i = 0;
-    int l = len-1;
+    int l = len-2;
     while (l > i){
 	//Swap
 	char aux = linea[i];
@@ -50,7 +52,6 @@ void invertirLinea(char* linea){
 	i++;
 	l--;
     }
-    
 }
 
 
@@ -76,23 +77,29 @@ int main(int argc, char** argv){
 		}
 
 	int i = 0;
-	
-	while (i < nFiles){
+	int error=0;
+	while (i < nFiles && error==0){
 		if (! noFile){
 			file = fopen(argv[i+1],"r");
 		}
 		
 		if(!file){
-			fprintf(stderr,"File %s not found\n",argv[i+1]);
+			fprintf(stderr,"Error in File %s open\n",argv[i+1]);
 		}
 		else{
-			while (!feof(file)){
-				char* s=leerLinea(file);
-				invertirLinea(s);
-				if (s){
-					printf("%s\n",s);
-					free(s);
+			while (!feof(file)&& error==0){
+				char* s=NULL;
+				int size=0;
+				error=leerLinea(file,&s,&size);
+				if(error==0){
+					invertirLinea(s,size);
+					if (s)
+						if(s[size-1]==EOF)
+							size--;
+						write(1,s,size);
 				}
+				if(s)
+					free(s);
 			}
 		}
 		i++;
@@ -100,6 +107,5 @@ int main(int argc, char** argv){
 			fclose(file);
 		}
 	}
-	
-	return 0;
+	return error;
 }
