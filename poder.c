@@ -10,7 +10,7 @@
 #define REALLOC_ERROR 2
 #define FGETC 3
 
-//Lee una linea de tamanio arbitrario. Devuelve NULL al llegar a EOF
+//Lee una linea de tamanio arbitrario. Devuelve 0 si la lectura fue exitosa o un numero mayor a 0 si hubo un error. Ademas guarda en size el tamanio de la linea leida
 int leerLinea(FILE* archivo, char** linea,int* size){
     int tam = TAM_INI_CADENA,i=0;
     *linea = (char*)malloc(sizeof(char)*tam);
@@ -41,7 +41,6 @@ int leerLinea(FILE* archivo, char** linea,int* size){
 void invertirLinea(char* linea,int len){
 	if (!linea || len<3)
 	return;
-    //int len = strlen(linea);
     int i = 0;
     int l = len-2;
     while (l > i){

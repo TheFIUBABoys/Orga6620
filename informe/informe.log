@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.7)  8 SEP 2013 14:54
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.9.7)  2 OCT 2013 12:26
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -325,14 +325,15 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 32.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (/usr/share/texmf-texl
-ive/tex/latex/listings/lstlang1.sty
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+(/usr/share/texmf-texlive/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2004/09/05 1.3 listings language file
-) (/usr/share/texmf-texlive/tex/latex/listings/lstmisc.sty
+)
+(/usr/share/texmf-texlive/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
-) [3]
+)
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 108.
+nput line 109.
  (../main.c
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 1.
 
@@ -342,18 +343,19 @@ File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 1.
 
-Overfull \hbox (63.00415pt too wide) in paragraph at lines 9--10
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (651.01013pt too wide) in paragraph at lines 13--14
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 10.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 14.
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 10.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 14.
 
-Overfull \hbox (27.00378pt too wide) in paragraph at lines 19--20
+Overfull \hbox (33.00385pt too wide) in paragraph at lines 27--28
 [][][][][][][][][][][][][][][][][][][][][][] 
  []
 
@@ -368,41 +370,71 @@ Overfull \hbox (891.01257pt too wide) in paragraph at lines 70--71
  []
 
 
-Overfull \hbox (87.0044pt too wide) in paragraph at lines 86--87
-[][][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (111.00464pt too wide) in paragraph at lines 86--87
+[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[5]) (../fuente.mips
-Overfull \hbox (141.0049pt too wide) in paragraph at lines 10--11
+
+Overfull \hbox (33.00385pt too wide) in paragraph at lines 92--93
+[][][][][][][][][][][][][][] 
+ []
+
+[5]
+Overfull \hbox (27.00378pt too wide) in paragraph at lines 94--95
+[][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (51.00403pt too wide) in paragraph at lines 96--97
+[][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (33.00385pt too wide) in paragraph at lines 97--98
+[][][][][][] 
+ []
+
+
+Overfull \hbox (39.0039pt too wide) in paragraph at lines 98--99
+[][][][][][][][][][] 
+ []
+
+) (../fuente.mips
+Overfull \hbox (141.0049pt too wide) in paragraph at lines 15--16
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[6]
-Overfull \hbox (15.0036pt too wide) in paragraph at lines 72--73
+[6] [7]
+Overfull \hbox (15.0036pt too wide) in paragraph at lines 105--106
 [][][][][][][][][][][][][][][] 
  []
 
-[7]
-Overfull \hbox (141.0049pt too wide) in paragraph at lines 104--105
+
+Overfull \hbox (135.00484pt too wide) in paragraph at lines 126--127
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[8]
-Overfull \hbox (3.00352pt too wide) in paragraph at lines 180--181
+[8] [9]
+Overfull \hbox (3.00352pt too wide) in paragraph at lines 198--199
 [][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (39.00389pt too wide) in paragraph at lines 181--182
+Overfull \hbox (39.00389pt too wide) in paragraph at lines 199--200
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[9]
-Overfull \hbox (141.0049pt too wide) in paragraph at lines 205--206
+
+Overfull \hbox (141.0049pt too wide) in paragraph at lines 220--221
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[10] [11] [12]) [13] <../enunciado.pdf, id=587, page=1, 614.295pt x 794.97pt>
+[10] [11] [12]
+Overfull \hbox (15.0036pt too wide) in paragraph at lines 346--347
+[][][][][][][][][][][][][][][] 
+ []
+
+[13]) [14] <../enunciado.pdf, id=637, page=1, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 1>
@@ -415,8 +447,8 @@ File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 1>
 File: ../enunciado.pdf Graphic file (type pdf)
 
-<use ../enunciado.pdf, page 1> [14 <../enunciado.pdf>]
-<../enunciado.pdf, id=618, page=2, 614.295pt x 794.97pt>
+<use ../enunciado.pdf, page 1> [15 <../enunciado.pdf>]
+<../enunciado.pdf, id=668, page=2, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 2>
@@ -424,8 +456,8 @@ File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 2>
 File: ../enunciado.pdf Graphic file (type pdf)
 
-<use ../enunciado.pdf, page 2> [15 <../enunciado.pdf>]
-<../enunciado.pdf, id=631, page=3, 614.295pt x 794.97pt>
+<use ../enunciado.pdf, page 2> [16 <../enunciado.pdf>]
+<../enunciado.pdf, id=681, page=3, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 3>
@@ -433,8 +465,8 @@ File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 3>
 File: ../enunciado.pdf Graphic file (type pdf)
 
-<use ../enunciado.pdf, page 3> [16 <../enunciado.pdf>]
-<../enunciado.pdf, id=644, page=4, 614.295pt x 794.97pt>
+<use ../enunciado.pdf, page 3> [17 <../enunciado.pdf>]
+<../enunciado.pdf, id=694, page=4, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 4>
@@ -442,15 +474,15 @@ File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 4>
 File: ../enunciado.pdf Graphic file (type pdf)
 
-<use ../enunciado.pdf, page 4> [17 <../enunciado.pdf>] (./informe.aux) ) 
+<use ../enunciado.pdf, page 4> [18 <../enunciado.pdf>] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 8487 strings out of 495061
- 117795 string characters out of 1182622
- 242006 words of memory out of 3000000
- 11061 multiletter control sequences out of 15000+50000
+ 8579 strings out of 495061
+ 118955 string characters out of 1182622
+ 243579 words of memory out of 3000000
+ 11106 multiletter control sequences out of 15000+50000
  10007 words of font info for 36 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 38i,17n,52p,501b,2111s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,17n,52p,554b,2111s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/s
 hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-
 texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fon
@@ -467,9 +499,9 @@ usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/t
 exmf-texlive/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-texliv
 e/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf-texlive/fonts/type
 1/public/amsfonts/cm/cmtt9.pfb>
-Output written on informe.pdf (17 pages, 333544 bytes).
+Output written on informe.pdf (18 pages, 342796 bytes).
 PDF statistics:
- 791 PDF objects out of 1000 (max. 8388607)
- 486 named destinations out of 1000 (max. 500000)
+ 850 PDF objects out of 1000 (max. 8388607)
+ 533 named destinations out of 1000 (max. 500000)
  150 words of extra memory for PDF output out of 10000 (max. 10000000)
 

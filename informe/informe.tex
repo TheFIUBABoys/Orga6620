@@ -48,18 +48,19 @@ El ejecutable tendrá el mismo objeto que el comando rev, es decir, leerá un arch
 
 \subsection{Diseño e Implementación}
 
-Algunas suposiciones realizadas fueron las siguientes:
+Algunas suposiciones realizadas y detalles de implementación fueron los siguientes:
 \begin{itemize} 
  \item Cada caracter mide 1 byte. 
  \item El programa recibe como parámetros los archivos sobre los que trabajar. En caso de no recibir ningún parámetro, opera sobre los datos provenientes de stdin.
  \item Dividimos nuestro programa en 3 módulos básicos, cada uno de los cuales tiene una tarea específica.
- \subitem \textbf{leerLinea}: Se encarga, como su nombre lo indica, de leer caracter por caracter el contenido de una línea hasta encontrar el fin de archivo o el caracter de fin de línea. Recibe como parámetro el descriptor del archivo del que debe leer o el descriptor de stdin si este fuera el caso. Devuelve un buffer con el contenido de la línea.
+ \subitem \textbf{leerLinea}: Se encarga, como su nombre lo indica, de leer caracter por caracter el contenido de una línea hasta encontrar el fin de archivo o el caracter de fin de línea. Recibe como parámetro el descriptor del archivo del que debe leer o el descriptor de stdin si este fuera el caso. Además recibe un puntero a un int donde almacenará el tamaño de la línea leida y un puntero a char pointer para almacenar los caracteres leidos. Devuelve 0 si la lectura fue exitosa o un número mayor a 0 si hubo un error.
  \subitem \textbf{invertirLinea}: Este módulo se utiliza para invertir el orden de aparición de los caracteres en una línea. De este modo, el último caracter de la línea quedará en primer lugar y el primero último, y de forma análoga se intercambiaran el resto de los caracteres. Recibe como parámetro un buffer con la línea en su estado original y devuelve en ese mismo buffer, la línea invertida.
- \subitem \textbf{main}: Por último, tenemos la función principal que se encarga de interpretar los parámetros con los que fue llamado el programa y llamar a los modulos antes mencionados cuando sea necesario. De acuerdo a los parámetros que le sean ingresados el programa se comportará de distinta manera: 
+ \subitem \textbf{main}: Por último, tenemos la función principal que se encarga de interpretar los parámetros con los que fue llamado el programa y llamar a los módulos antes mencionados cuando sea necesario. De acuerdo a los parámetros que le sean ingresados el programa se comportará de distinta manera: 
  \subsubitem Si recibe como párametro '-h' muestra por pantalla una breve explicación del uso del programa.
  \subsubitem En caso de recibir el parámetro '-V' muestra la versión del programa en ejecución.
  \subsubitem De no recibir parámetros lee por entrada standard e invierte el contenido de cada línea.
- \subsubitem En otro caso, abre e invierte las líneas de los archivos pasados como parámetro. En caso de no encontrar alguno de ellos, informa por stdout el nombre del archivo que no encontró.
+ \subsubitem En otro caso, abre e invierte las líneas de los archivos pasados como parámetro. En caso de fallar alguno de ellos, informa por stdout el nombre del archivo que no encontró.
+Retorna 0 si la ejecución fue exitosa o un número mayor a 0 en otro caso.
 \end{itemize}
 
 \section{Comandos para la compilacion}
