@@ -46,16 +46,16 @@ char* leerLinea(FILE* archivo,int* largo){
 
 void invertirLinea(char* linea,int len){
     if (!linea)
-	return;
+		return;
     int i = 0;
     int l = len-1;
     while (l > i){
-	//Swap
-	char aux = linea[i];
-	linea[i]=linea[l];
-	linea[l]=aux;
-	i++;
-	l--;
+		//Swap
+		char aux = linea[i];
+		linea[i]=linea[l];
+		linea[l]=aux;
+		i++;
+		l--;
     }
     
 }
