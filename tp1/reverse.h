@@ -2,6 +2,7 @@
 #define REVERSE_H
 
 #include <stdio.h>
+#include "sys_mmap/mymalloc.h"
 
 
 

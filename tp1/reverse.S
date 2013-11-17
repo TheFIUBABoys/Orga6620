@@ -9,7 +9,7 @@
 .ent reverse
 reverse: 	
 	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 + 3 padding
-	sw $fp, STACK_SIZE-8(sp)	#este menos no se si se puede hacer, check. Sino dejar asi hasta que tengamos size de stack
+	sw $fp, STACK_SIZE-8(sp)
 	sw gp, STACK_SIZE-4(sp)
 	sw ra, STACK_SIZE(sp)
 	sw a0, STACK_SIZE+4(sp)
@@ -62,6 +62,12 @@ popStackInv:
 	jr ra
 .end invertirLinea
 
+.ent leerLinea
+	
+li a0, 1
+jal mymalloc
+jr ra
+.end leerLinea
 
 .data
 #Checkear como poner los punteros bien; poner .align o .space?
