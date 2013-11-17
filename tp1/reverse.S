@@ -49,7 +49,7 @@ while:
 	sb $t4, $t2($t0) #linea[i]=linea[l];
 	sb $t3, $t1($t0)
 	addiu $t2, $t2, 1 #i++
-	addiu $t1, $t1, 1 #l--
+	addiu $t1, $t1, -1 #l--
 	b while
 
 popStackInv:
