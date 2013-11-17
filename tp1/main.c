@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
-
+#include <revert.h>
 #define TAM_INI_CADENA 40
 
 
