@@ -1,0 +1,115 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{graphicx}
+\usepackage[ansinew]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{mips}
+\usepackage{verbatim}
+\usepackage{pdfpages}
+
+\title{		\textbf{Versión en C del comando rev }}
+
+\author{	Lucas Simonelli, \textit{Padrón Nro. 93111}                     \\
+            \texttt{ lucasp.simonelli@gmail.com }                                              \\[2.5ex]
+            Tomás Boccardo, \textit{Padrón Nro. 00.000}                     \\
+            \texttt{ dirección de e-mail }                                              \\[2.5ex]
+            Andrés Sanabria, \textit{Padrón Nro. 00.000}                     \\
+            \texttt{ dirección de e-mail }                                              \\[2.5ex]
+            \normalsize{2do. Cuatrimestre de 2013}                                      \\
+            \normalsize{66.20 Organización de Computadoras  $-$ Práctica Martes}  \\
+            \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires}            \\
+       }
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}   % quita el número en la primer página
+
+
+%\begin{abstract}
+%Este artículo es un modelo que proporciona a los alumnos las instrucciones necesarias para preparar sus informes para la asignatura \textit{66.20 Organización de %Computadoras} (práctica Viernes). El informe podrá contener (optativo) un resumen de no más de 150 palabras. La primera página del artículo deberá seguir el formato que se ilustra en el presente modelo y deberá contener el título, los nombres de los autores, sus números de padrón, sus direcciones de e-mail, y el resumen (si tuviese). La primera página del informe no debe ser numerada.
+%\end{abstract}
+
+\newpage
+\section{Introducción}
+
+En el presente trabajo práctico se elaboró una versión en C del comando \textit{rev} de Unix\footnote{\url{http://linux.about.com/library/cmd/blcmdl_rev.htm}}, que
+puede ejecutarse sin problemas tanto en linux sobre x86 como en netBSD sobre MIPS32.
+
+
+\section{Función}
+El ejecutable tendrá el mismo objeto que el comando rev, es decir, leerá un archivo por alguno de los canales ofrecidos y lo invertirá línea a línea.
+
+
+\section{Comandos para la compilacion}
+Para compilar el programa, deberá introducirse el siguiente comando:
+\begin{verbatim}
+#compilamos
+~$gcc -o tp0 main.c
+
+#corremos
+~$./tp0 [archivo]
+\end{verbatim}
+
+\subsection{Sintaxis de uso}
+\begin{verbatim}
+$ ./tp0 -h
+Usage:
+./tp0 -h
+./tp0 -V
+./tp0 [file...]
+Options:
+-V, --version, print version and quit.
+-h, --help, print this information and quit.
+
+Examples:
+./tp0 foo.txt bar.txt
+./tp0 gz.txt
+echo "Hola mundo" | ./tp0
+\end{verbatim}
+
+\section{Corridas de prueba}
+(Los archivos se facilitan junto con este informe en la entrega digital)
+\subsection{Corrida con archivo de parámetro}
+\begin{verbatim}
+~$./tp0 ejemplo.txt
+1elif ed aenil aremirp al se atsE
+.adnuges al se atse y
+
+\end{verbatim}
+\subsection{Corrida con entrada de stdin}
+\begin{verbatim}
+~$echo "Hola mundo" | ./tp0
+odnum aloH
+\end{verbatim}
+
+\section{Código fuente}
+\lstinputlisting[language=C]{../main.c}
+
+\section{Código MIPS32}
+\lstset{language=[mips]Assembler}
+\lstinputlisting{../fuente.mips}
+
+\section{Conclusiones}
+
+Se aprendieron las generalidades del uso de gxemule.
+
+\section{Enunciado}
+\includepdf[scale=0.8,pages={1,2,3,4}]{../enunciado.pdf}
+
+\begin{comment}
+\begin{thebibliography}{99}
+
+\bibitem{INT06} Intel Technology \& Research, ``Hyper-Threading Technology,'' 2006, http://www.intel.com/technology/hyperthread/.
+
+\bibitem{HEN00} J. L. Hennessy and D. A. Patterson, ``Computer Architecture. A Quantitative
+Approach,'' 3ra Edición, Morgan Kaufmann Publishers, 2000.
+
+\bibitem{LAR92} J. Larus and T. Ball, ``Rewriting Executable Files to Mesure Program Behavior,'' Tech. Report 1083, Univ. of Wisconsin, 1992.
+
+\end{thebibliography}
+\end{comment}
+\end{document}
