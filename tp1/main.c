@@ -7,44 +7,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "reverse.h"
-#define TAM_INI_CADENA 40
 
 
 //Lee una linea de tamanio arbitrario. Devuelve NULL al llegar a EOF
-char* leerLinea(FILE* archivo,int* largo){
-    int tam = TAM_INI_CADENA,i=0;
-    char *linea = (char*)malloc(sizeof(char)*tam);
-    if (!linea)
-    	return NULL;
-    char letra;
-    do {
-        letra = fgetc(archivo);
-	if (!letra){
-		fprintf(stderr,"An error has occurred while reading file. The program will exit now.");
-		exit(3);
-	}
-        linea[i]=letra;
-        if (tam==i+1){
-            tam=(int) pow((double) tam,1.51);
-            char *aux=(char*) realloc(linea,sizeof(char)*tam);
-            if (!aux) {
-                fprintf(stderr,"An error has occurred while reading file. The program will exit now.");
-		exit(2);
-            } else {
-                linea=aux;
-            }
-        }
-        i++;
-    } while (letra!='\n' && letra!=EOF);
-    linea[i-1]='\0';
-    
- 	if (i-1 == 0 ){
- 		free(linea);
- 		return NULL;
- 	}
- 	*largo=i-1;
-    return linea;
-}
 
 
 void invertirLinea(char* linea,int len){
@@ -96,7 +61,10 @@ int main(int argc, char** argv){
 			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
 			exit(1);
 		} else { 
-			reverse(file, 1); // 1 es stdout
+			//reverse(file, 1); // 1 es stdout
+			int lineLength;
+			printf("Linea: %s\n",leerLinea(file,&lineLength));
+			printf("length: %d\n",lineLength);
 			close(file);
 		}
 		i++;

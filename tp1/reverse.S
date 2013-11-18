@@ -1,8 +1,8 @@
 #include <sys/syscall.h>
 #include <mips/regdef.h>
 
-#define STACK_SIZE 32
 
+#define STACK_SIZE 32
 #define TAM_INI_CADENA 40
 
 .text
@@ -68,17 +68,18 @@ realloc:
 .end realloc
 
 
-
+.globl leerLinea
 .ent leerLinea
 leerLinea:			# a0: fd al archivo, a1: puntero a largo
 	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 + 3 padding
-	sw $fp, STACK_SIZE-24(sp)
-	sw gp, STACK_SIZE-20(sp)
-	sw ra, STACK_SIZE-16(sp)
-	sw s0, STACK_SIZE-12(sp)
-	sw s1, STACK_SIZE-8(sp)
-	sw s2, STACK_SIZE-4(sp)
-	sw s3, STACK_SIZE(sp)
+	sw $fp, STACK_SIZE-28(sp)
+	sw gp, STACK_SIZE-24(sp)
+	sw ra, STACK_SIZE-20(sp)
+	sw s0, STACK_SIZE-16(sp)
+	sw s1, STACK_SIZE-12(sp)
+	sw s2, STACK_SIZE-8(sp)
+	sw s3, STACK_SIZE-4(sp)
+	sw s4, STACK_SIZE(sp)
 	sw a0, STACK_SIZE+4(sp)
 	sw a1, STACK_SIZE+8(sp)
 	
@@ -90,39 +91,51 @@ leerLinea:			# a0: fd al archivo, a1: puntero a largo
 	li a0,TAM_INI_CADENA	# tamano para reservar memoria. Parametro de mymalloc
 	jal mymalloc			# llamo a mymalloc
 	move s3,v0				# s3 <- return de mymalloc
-	bltz s3,error_malloc	# Si v0 < 0 -> error
+	beqz s3,error_malloc	# Si v0 == NULL -> error
 	
 	# Reservo memoria para la letra
 	li a0,1				# tamano para reservar memoria. Parametro de mymalloc
 	jal mymalloc			# llamo a mymalloc
-	move t0,v0			# t0 <- return de mymalloc
-	bltz t0,error_malloc	# Si v0 < 0 -> error
+	move s4,v0			# s4 <- return de mymalloc
+	beqz s4,error_malloc	# Si v0 == NULL -> error
 
 loop:	
 	# Leo un caracter del archivo
 	li v0,SYS_read			# Indico que la syscall es read
 	move a0,s0				# 1er param -> fd
-	move a1,t1				# 2do param -> ptr al buffer(letra)
+	move a1,s4				# 2do param -> ptr al buffer(letra)
 	li a2,1					# 3er param -> chars a leer (1 en este caso, solo leo una letra)
 	syscall
 	
 	bltz v0,error_lectura
 	
+	# DEBUGGING, imprimo la letra leida
+	li v0,SYS_write			# Indico que la syscall es write
+	li a0,1					# 1er param -> fd(stdout)
+	move a1,s4				# 2do param -> ptr al buffer(letra)
+	li a2,1					# 3er param -> chars a leer (1 en este caso, solo leo una letra)
+	syscall
+	
+	# END DEBUGGING
+	
+	
+	
 	# Copio la letra leida en la linea
-	lb t1,0(t0)				# *letra -> t1
+	lb t1,0(s4)				# *letra -> t1
 	addu t2,s3,s2			# linea[i] -> t2
 	sb t1,0(t2)				# linea[i] = *letra
 	addi s2,1				# i++
 	
 	
 	# Chequeo si el indice de linea se fue de rango
-	li t2,TAM_INI_CADENA
-	bne t2,s2,non_realloc	# i != TAM
-	move a0,s3
-	jal realloc
+	#li t2,TAM_INI_CADENA
+	#bne t2,s2,non_realloc	# i != TAM
+	#move a0,s3
+	#jal realloc
 
 non_realloc:
-	li t2,'\n'		
+	li t2,10
+	lw t1,0(s4)	
 	beq t1,t2,end_loop	# letra == '\n'
 	beqz t1,end_loop		# letra == EOF
 	b loop
@@ -130,16 +143,16 @@ non_realloc:
 end_loop:
 	addi s2,-1				# i-1 para pisar el ultimo char almacenado (\n o eof)
 	addu t2,s3,s2		# linea[i] -> t2
-	li t1,'\0'				
+	li t1,0				
 	sb t1,0(t2)				# linea[i] = '\0'
 	
 	# Libero letra
-	move a0,t1
+	move a0,s4
 	jal myfree
 	bnez v0,error_free
 	
 	bnez s2,return_ok
-	move s3,t1			# Largo 0, libero linea
+	move a0,s3			# Largo 0, libero linea
 	jal myfree
 	bnez v0,error_free
 	b zero_length
@@ -158,21 +171,23 @@ error_free:
 
 zero_length:
 	move v0,zero
+	sw zero,0(s1)	# Pongo el largo en el parametro
 	b return
 	
 return_ok:	
-	move v0,t2		# Devuelvo el puntero a linea
-	sw s2,0(s1)		# Pongo el largo en el parametro
+	move v0,s3		# Devuelvo el puntero a linea
+	sw s2,0(s1)	# Pongo el largo en el parametro
 	b return
 	
 return:	
-	lw $fp, STACK_SIZE-24(sp)
-	lw gp, STACK_SIZE-20(sp)
-	lw ra, STACK_SIZE-16(sp)
-	lw s0, STACK_SIZE-12(sp)
-	lw s1, STACK_SIZE-8(sp)
-	lw s2, STACK_SIZE-4(sp)
-	lw s3, STACK_SIZE(sp)
+	lw $fp, STACK_SIZE-28(sp)
+	lw gp, STACK_SIZE-24(sp)
+	lw ra, STACK_SIZE-20(sp)
+	lw s0, STACK_SIZE-16(sp)
+	lw s1, STACK_SIZE-12(sp)
+	lw s2, STACK_SIZE-8(sp)
+	lw s3, STACK_SIZE-4(sp)
+	lw s4, STACK_SIZE(sp)
 	lw a0, STACK_SIZE+4(sp)
 	lw a1, STACK_SIZE+8(sp)
 	addiu sp, sp, STACK_SIZE
