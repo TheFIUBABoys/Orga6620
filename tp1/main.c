@@ -3,7 +3,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
-#include <revert.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include "reverse.h"
 #define TAM_INI_CADENA 40
 
 
@@ -64,12 +67,12 @@ void invertirLinea(char* linea,int len){
 int main(int argc, char** argv){
 	//FILE* ejemplo = fopen("ejemplo","r");	
 	int nFiles = argc - 1;
-	FILE* file;
+	int file;
 	bool noFile = false;
 
 
 	if (nFiles == 0){
-		file = stdin;
+		file = 0; // stdin
 		nFiles = 1;
 		noFile = true;
 	}
@@ -86,26 +89,17 @@ int main(int argc, char** argv){
 	
 	while (i < nFiles){
 		if (! noFile){
-			file = fopen(argv[i+1],"r");
+			file = open(argv[i+1],O_RDONLY);
 		}
 		
-		if(!file){
+		if(file < 0){ // file < 0 es error
 			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
 			exit(1);
-		} else
-		while (!feof(file)){
-			int largo = 0;
-			char* s=leerLinea(file,&largo);
-			invertirLinea(s,largo);
-			if (s){
-				printf("%s\n",s);
-				free(s);
-			}
+		} else { 
+			reverse(file, 1); // 1 es stdout
+			close(file);
 		}
 		i++;
-		if (! noFile && file){
-			fclose(file);
-		}
 	}
 	
 	return 0;

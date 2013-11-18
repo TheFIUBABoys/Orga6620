@@ -15,9 +15,6 @@ reverse:
 	sw a0, STACK_SIZE+4(sp)
 	sw a1, STACK_SIZE+8(sp)
 		
-			
-
-
 
 popStack:
 	lw $fp, STACK_SIZE-8(sp)
@@ -63,10 +60,19 @@ popStackInv:
 .end invertirLinea
 
 .ent leerLinea
+leerLinea:			# a0: fd al archivo, a1: puntero a largo
+	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 + 3 padding
+	sw $fp, STACK_SIZE-8(sp)
+	sw gp, STACK_SIZE-4(sp)
+	sw ra, STACK_SIZE(sp)
+	sw a0, STACK_SIZE+4(sp)
+	sw a1, STACK_SIZE+8(sp)
 	
-li a0, 1
-jal mymalloc
-jr ra
+	
+	
+	li a0, 1
+	jal mymalloc
+	jr ra
 .end leerLinea
 
 .data

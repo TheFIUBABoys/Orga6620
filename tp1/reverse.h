@@ -8,11 +8,8 @@
 
 #define TAM_INI_CADENA 40
 
-extern const char* reverse_errmsg[]
+extern const char* reverse_errmsg[];
 
-
-
-
-int reverse(int infd, int outfd)
+int reverse(int infd, int outfd);
 
 #endif
