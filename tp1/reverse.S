@@ -145,17 +145,25 @@ end_loop:
 	b zero_length
 
 error_lectura:
-#TODO ERROR_LECTURA
-
+	#TODO ERROR_LECTURA
+	b zero_length
+	
 error_malloc:
-#TODO ERROR_MALLOC
-
+	#TODO ERROR_MALLOC
+	b zero_length
+	
 error_free:
-#TODO ERROR_FREE
+	#TODO ERROR_FREE
+	b zero_length
 
 zero_length:
+	move v0,zero
+	b return
 	
 return_ok:	
+	move v0,t2		# Devuelvo el puntero a linea
+	sw s2,0(s1)		# Pongo el largo en el parametro
+	b return
 	
 return:	
 	lw $fp, STACK_SIZE-24(sp)
