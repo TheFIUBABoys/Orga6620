@@ -1,0 +1,137 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{graphicx}
+\usepackage[ansinew]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{mips}
+\usepackage{verbatim}
+\usepackage{pdfpages}
+
+\title{		\textbf{Versión en C del comando rev }}
+
+\author{	Lucas Simonelli, \textit{Padrón Nro. 93111}                     \\
+            \texttt{ lucasp.simonelli@gmail.com }                                              \\[2.5ex]
+            Tomás Boccardo, \textit{Padrón Nro. 93637}                     \\
+            \texttt{ tomasboccardo@gmail.com}                                              \\[2.5ex]
+            Andrés Sanabria, \textit{Padrón Nro. 93403}                     \\
+            \texttt{ andresg.sanabria@gmail.com  }                                              \\[2.5ex]
+            \normalsize{2do. Cuatrimestre de 2013}                                      \\
+            \normalsize{66.20 Organización de Computadoras  $-$ Práctica Martes}  \\
+            \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires}            \\
+       }
+\date{}
+\begin{document}
+
+
+
+
+
+\maketitle
+\thispagestyle{empty}   % quita el número en la primer página
+
+
+\begin{abstract}
+El presente trabajo consiste en la implementación de un programa, similar al comando rev de Unix, encargado de concatenar y escribir en stdout el contenido invertido de cada línea, de uno o más archivos pasados como parámetros.
+El mismo contiene adjunto el código fuente en lenguaje C, el código MIPS32 generado por el compilador y un instructivo para la compilación de código fuente. Además se incluyen algunos ejemplos de uso del programa, con el objetivo de mostrar su funcionalidad completamente, y se mencionan ciertos aspectos que consideramos importantes sobre el diseño e implementación del Programa.
+\end{abstract}
+
+\newpage
+\section{Introducción}
+El objetivo del trabajo desarrollado en este informe es familiarizarse con las herramientas a utilizar en trabajos posteriores. Entre ellas se destacan el compilador GCC y el programa GXemul, el cual se utilizará para simular un entorno de desarrollo de una máquina MIPS corriendo una versión del sistema operativo NetBSD. Para ello se implementará un programa con funcionalidad similar al rev de Unix\footnote{\url{http://linux.about.com/library/cmd/blcmdl_rev.htm}}.
+
+\section{Función}
+El ejecutable tendrá el mismo objeto que el comando rev, es decir, leerá un archivo por alguno de los canales ofrecidos y lo invertirá línea a línea.
+
+\section{Desarrollo}
+
+\subsection{Diseño e Implementación}
+
+Algunas suposiciones realizadas y detalles de implementación fueron los siguientes:
+\begin{itemize} 
+ \item Cada caracter mide 1 byte. 
+ \item El programa recibe como parámetros los archivos sobre los que trabajar. En caso de no recibir ningún parámetro, opera sobre los datos provenientes de stdin.
+ \item Dividimos nuestro programa en 3 módulos básicos, cada uno de los cuales tiene una tarea específica.
+ \subitem \textbf{leerLinea}: Se encarga, como su nombre lo indica, de leer caracter por caracter el contenido de una línea hasta encontrar el fin de archivo o el caracter de fin de línea. Recibe como parámetro el descriptor del archivo del que debe leer o el descriptor de stdin si este fuera el caso. Además recibe un puntero a un int donde almacenará el tamaño de la línea leida y un puntero a char pointer para almacenar los caracteres leidos. Devuelve 0 si la lectura fue exitosa o un número mayor a 0 si hubo un error.
+ \subitem \textbf{invertirLinea}: Este módulo se utiliza para invertir el orden de aparición de los caracteres en una línea. De este modo, el último caracter de la línea quedará en primer lugar y el primero último, y de forma análoga se intercambiaran el resto de los caracteres. Recibe como parámetro un buffer con la línea en su estado original y devuelve en ese mismo buffer, la línea invertida.
+ \subitem \textbf{main}: Por último, tenemos la función principal que se encarga de interpretar los parámetros con los que fue llamado el programa y llamar a los módulos antes mencionados cuando sea necesario. De acuerdo a los parámetros que le sean ingresados el programa se comportará de distinta manera: 
+ \subsubitem Si recibe como párametro '-h' muestra por pantalla una breve explicación del uso del programa.
+ \subsubitem En caso de recibir el parámetro '-V' muestra la versión del programa en ejecución.
+ \subsubitem De no recibir parámetros lee por entrada standard e invierte el contenido de cada línea.
+ \subsubitem En otro caso, abre e invierte las líneas de los archivos pasados como parámetro. En caso de fallar alguno de ellos, informa por stdout el nombre del archivo que no encontró.
+Retorna 0 si la ejecución fue exitosa o un número mayor a 0 en otro caso.
+\end{itemize}
+
+\section{Comandos para la compilacion}
+Para compilar el programa, deberá introducirse el siguiente comando:
+\begin{verbatim}
+#compilamos
+~$gcc -o tp0 main.c
+
+#corremos
+~$./tp0 [archivo]
+\end{verbatim}
+
+\subsection{Sintaxis de uso}
+\begin{verbatim}
+$ ./tp0 -h
+Usage:
+./tp0 -h
+./tp0 -V
+./tp0 [file...]
+Options:
+-V, --version, print version and quit.
+-h, --help, print this information and quit.
+
+Examples:
+./tp0 foo.txt bar.txt
+./tp0 gz.txt
+echo "Hola mundo" | ./tp0
+\end{verbatim}
+
+\section{Corridas de prueba}
+(Los archivos se facilitan junto con este informe en la entrega digital)
+\subsection{Corrida con archivo de parámetro}
+\begin{verbatim}
+~$./tp0 ejemplo.txt
+1elif ed aenil aremirp al se atsE
+.adnuges al se atse y
+
+\end{verbatim}
+\subsection{Corrida con entrada de stdin}
+\begin{verbatim}
+~$echo "Hola mundo" | ./tp0
+odnum aloH
+\end{verbatim}
+
+\section{Código fuente}
+\lstinputlisting[language=C]{../main.c}
+
+\section{Código MIPS32}
+\lstset{language=[mips]Assembler}
+\lstinputlisting{../fuente.mips}
+
+\section{Conclusiones}
+
+La utilización del emulador GXemul nos permitió simular una máquina MIPS en la que corrimos como sistema operativo una versión de NETBSD. Además, utilizamos como sistema operativo host Linux en un arquitectura INTEL. Con la compilación de nuestro código C y su posterior ejecución en ambas arquitecturas con sistemas operativos diferentes pudimos comprobar la portabilidad de nuestro código.
+Por otro lado, luego de utilizar el compilador GCC para obtener el código Assembler de nuestro programa y compararlo con el código C del mismo, pudimos observar la enorme diferencia entre el número de instrucciones de un lenguaje de bajo nivel(Assembler) y uno de alto nivel(C).
+
+
+
+\section{Enunciado}
+\includepdf[scale=0.8,pages={1,2,3,4}]{../enunciado.pdf}
+
+\begin{comment}
+\begin{thebibliography}{99}
+
+\bibitem{INT06} Intel Technology \& Research, ``Hyper-Threading Technology,'' 2006, http://www.intel.com/technology/hyperthread/.
+
+\bibitem{HEN00} J. L. Hennessy and D. A. Patterson, ``Computer Architecture. A Quantitative
+Approach,'' 3ra Edición, Morgan Kaufmann Publishers, 2000.
+
+\bibitem{LAR92} J. Larus and T. Ball, ``Rewriting Executable Files to Mesure Program Behavior,'' Tech. Report 1083, Univ. of Wisconsin, 1992.
+
+\end{thebibliography}
+\end{comment}
+\end{document}
