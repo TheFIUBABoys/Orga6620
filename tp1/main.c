@@ -96,8 +96,10 @@ int main(int argc, char** argv){
 			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
 			exit(1);
 		} else { 
-			reverse(file, 1); // 1 es stdout
-			close(file);
+			int res=reverse(file, 1) // 1 es stdout
+			close(file);			
+			if(res!=0)
+				return res;
 		}
 		i++;
 	}
