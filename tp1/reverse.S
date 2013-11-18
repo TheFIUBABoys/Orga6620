@@ -106,19 +106,7 @@ loop:
 	move a1,s4				# 2do param -> ptr al buffer(letra)
 	li a2,1					# 3er param -> chars a leer (1 en este caso, solo leo una letra)
 	syscall
-	
 	bltz v0,error_lectura
-	
-	# DEBUGGING, imprimo la letra leida
-	li v0,SYS_write			# Indico que la syscall es write
-	li a0,1					# 1er param -> fd(stdout)
-	move a1,s4				# 2do param -> ptr al buffer(letra)
-	li a2,1					# 3er param -> chars a leer (1 en este caso, solo leo una letra)
-	syscall
-	
-	# END DEBUGGING
-	
-	
 	
 	# Copio la letra leida en la linea
 	lb t1,0(s4)				# *letra -> t1

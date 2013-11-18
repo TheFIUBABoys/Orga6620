@@ -61,10 +61,16 @@ int main(int argc, char** argv){
 			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
 			exit(1);
 		} else { 
-			//reverse(file, 1); // 1 es stdout
+			reverse(file, 1); // 1 es stdout
+			
+			/* 
+				LEER LINEA DEBUG MODE: ON
 			int lineLength;
 			printf("Linea: %s\n",leerLinea(file,&lineLength));
 			printf("length: %d\n",lineLength);
+				LEER LINEA DEBUG MODE: OFF
+			*/	
+			
 			close(file);
 		}
 		i++;
