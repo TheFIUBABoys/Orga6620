@@ -26,7 +26,7 @@ mientras:
 	jal leerLinea			# llamo a leer linea
 	lw t0, STACK_SIZE-16(sp)	# cargo size en t0
 	bnez v1, manejoError 		# capturo errores en leerLinea
-	bez t0, finMientras		# si size<=0 entonces termino loop(eof)
+	bez t0, salidaExitosa		# si size<=0 entonces termino loop(eof)
 	mv a0, v0			# cargo en a0 el puntero a la linea leida
 	addiu a1, sp, STACK_SIZE-16	# cargo en a1 la direccion de size
 	jal invertirLinea		# llamo a invertir linea 
@@ -37,18 +37,32 @@ mientras:
 	lw a0, STACK_SIZE+8(sp)		# cargo en a0 fdout 
 	lw STACK_SIZE-16(sp)		# cargo en a2 el size de la linea
 	syscall				# escribo linea en fdout
-	blez v0, error_escritura			
+	blez v0, error_escritura	# manejo error_escritura
+	
+	move a0,a1			# cargo en a0 linea leida
+	jal myfree			# libero linea
+	bnez v0, error_free2		# chequeo error en liberacion
+			
 	j mientras			# repito mientras 
 
+error_free2:
+	# ERROR_FREE
+	li v1, 3		# codigo de error en 3
+	b manejoError
 
 error_escritura:
 	# ERROR_ESCRITURA
-	li v1,4		# codigo de error en 4
+	li v1, 4		# codigo de error en 4
 
 manejoError:
-	# TODO: Manejar error
+	# TODO: Manejar error en v1 tengo codigo de error
+	move v0,v1 		# Devuelvo en v0 el codigo de error
+	b popStackInv
 
-finMientras:
+salidaExitosa:
+	li v0,0			# Cargo codigo de exito
+
+popStackInv:
 	lw $fp, STACK_SIZE-8(sp)
 	lw gp, STACK_SIZE-4(sp)
 	lw ra, STACK_SIZE(sp)
@@ -219,8 +233,11 @@ return:
 .end leerLinea
 
 .data
-#Checkear como poner los punteros bien; poner .align o .space?
-reverse_errmsg: 
+.align 2
+reverse_errmsg: .word sinError, error1, error2, error3, error4
+		.size reverse_errmsg, 16
+		.align 0
+sinError: .asciiz "error4"
 error1: .asciiz "error1"
 error2: .asciiz "error2"
 error3: .asciiz "error3"
