@@ -2,23 +2,53 @@
 #include <mips/regdef.h>
 
 
-#define STACK_SIZE 32
+#define STACK_SIZE 40
 #define TAM_INI_CADENA 40
+#define SYS_WRITE 15
 
 .text
 .align 2
 .globl reverse #a0->fdin, a1->fdout
 .ent reverse
-reverse: 	
-	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 + 3 padding
+reverse: 	#variables locales: t0->int size  
+	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 a2 a3+ size +1 padding
 	sw $fp, STACK_SIZE-8(sp)
 	sw gp, STACK_SIZE-4(sp)
 	sw ra, STACK_SIZE(sp)
 	sw a0, STACK_SIZE+4(sp)
 	sw a1, STACK_SIZE+8(sp)
-		
+	
+mientras:
+	lw a0, STACK_SIZE+4(sp)
+	li t0, t0, 0; 			# inicializo size en 0
+	sw t0, STACK_SIZE-16(sp)	# guardo size en el stack
+	addiu a1, sp, STACK_SIZE-16	# cargo en a1 la direccion de size en a0 tengo el fd
+	jal leerLinea			# llamo a leer linea
+	lw t0, STACK_SIZE-16(sp)	# cargo size en t0
+	bnez v1, manejoError 		# capturo errores en leerLinea
+	bez t0, finMientras		# si size<=0 entonces termino loop(eof)
+	mv a0, v0			# cargo en a0 el puntero a la linea leida
+	addiu a1, sp, STACK_SIZE-16	# cargo en a1 la direccion de size
+	jal invertirLinea		# llamo a invertir linea 
+	
+	#Imprimo linea en fdout
+	mv a1,a0			# copio en a1 el puntero a la linea leida
+	li v0, SYS_WRITE		# cargo en v0 el codigo de syscall Write	 
+	lw a0, STACK_SIZE+8(sp)		# cargo en a0 fdout 
+	lw STACK_SIZE-16(sp)		# cargo en a2 el size de la linea
+	syscall				# escribo linea en fdout
+	blez v0, error_escritura			
+	j mientras			# repito mientras 
 
-popStack:
+
+error_escritura:
+	# ERROR_ESCRITURA
+	li v1,4		# codigo de error en 4
+
+manejoError:
+	# TODO: Manejar error
+
+finMientras:
 	lw $fp, STACK_SIZE-8(sp)
 	lw gp, STACK_SIZE-4(sp)
 	lw ra, STACK_SIZE(sp)
@@ -37,9 +67,9 @@ invertirLinea: #t0->linea, t1->len
 	sw a0, 12(sp)
 	sw a1, 16(sp)
 
-	beqz t0, popStackInv
+	beqz t0, popStackInv   TODO:no falta mv t0,a0? porq pareciera que t0 no se inicializa
 	li t2, 0 #i->t2
-	addiu t1, t1, -1 #t1->l-1
+	addiu t1, t1, -1 #t1->l-1     TODO:no es addiun t1,a1,-1?porq pareciera que t1 no se inicializa
 while:
 	bgt t1, t2, popStackInv
 	addu t5, t0, t2 # t5 = t0+t2
@@ -143,27 +173,33 @@ end_loop:
 	move a0,s3			# Largo 0, libero linea
 	jal myfree
 	bnez v0,error_free
-	b zero_length
+	b zero_length_no_error
 
 error_lectura:
-	#TODO ERROR_LECTURA
+	# ERROR_LECTURA
+	li v1,1		# codigo de error en 1
 	b zero_length
 	
 error_malloc:
-	#TODO ERROR_MALLOC
+	# ERROR_MALLOC
+	li v1,2		# codigo de error en 2
 	b zero_length
 	
 error_free:
-	#TODO ERROR_FREE
+	# ERROR_FREE
+	li v1,3		# codigo de error en 3
 	b zero_length
 
+zero_length_no_error:	
+	li v1,0		# codigo de error en 0
 zero_length:
-	move v0,zero
+	move v0,zero 
 	sw zero,0(s1)	# Pongo el largo en el parametro
 	b return
 	
 return_ok:	
-	move v0,s3		# Devuelvo el puntero a linea
+	move v0, s3	# Devuelvo el puntero a linea
+	li v1,0		# codigo de error en 0 
 	sw s2,0(s1)	# Pongo el largo en el parametro
 	b return
 	
@@ -188,3 +224,4 @@ reverse_errmsg:
 error1: .asciiz "error1"
 error2: .asciiz "error2"
 error3: .asciiz "error3"
+error4: .asciiz "error4"
