@@ -80,10 +80,11 @@ invertirLinea: #t0->linea, t1->len
 	sw gp, 4(sp)
 	sw a0, 12(sp)
 	sw a1, 16(sp)
-
-	beqz t0, popStackInv   TODO:no falta mv t0,a0? porq pareciera que t0 no se inicializa
+	mv t0, a0
+	mv t1, a1
+	beqz t0, popStackInv  
 	li t2, 0 #i->t2
-	addiu t1, t1, -1 #t1->l-1     TODO:no es addiun t1,a1,-1?porq pareciera que t1 no se inicializa
+	addiu t1, t1, -1 #t1->l-1     
 while:
 	bgt t1, t2, popStackInv
 	addu t5, t0, t2 # t5 = t0+t2
