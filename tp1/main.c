@@ -63,7 +63,7 @@ int main(int argc, char** argv){
 		} else { 
 			res=reverse(file, 1); // 1 es stdout
 			
-			/* 
+			/*
 			//	LEER LINEA DEBUG MODE: ON
 			int lineLength;
 			printf("Linea: %s\n",leerLinea(file,&lineLength));
@@ -73,12 +73,12 @@ int main(int argc, char** argv){
 			
 			close(file);
 			if(res != 0){
-				printf(*(reverse_errmsg[res]));
+				printf("%s\n",reverse_errmsg[res]);
 				return res;
 			}
 		}
 		i++;
 	}
-	printf(*(reverse_errmsg[res]));
+	printf("%s\n",reverse_errmsg[res]);
 	return 0;
 }

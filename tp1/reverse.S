@@ -4,7 +4,6 @@
 
 #define STACK_SIZE 40
 #define TAM_INI_CADENA 40
-#define SYS_WRITE 15
 
 .text
 .align 2
@@ -20,22 +19,31 @@ reverse: 	#variables locales: t0->int size
 	
 mientras:
 	lw a0, STACK_SIZE+4(sp)
-	li t0, t0, 0; 			# inicializo size en 0
+	li t0, 0 			# inicializo size en 0
 	sw t0, STACK_SIZE-16(sp)	# guardo size en el stack
 	addiu a1, sp, STACK_SIZE-16	# cargo en a1 la direccion de size en a0 tengo el fd
 	jal leerLinea			# llamo a leer linea
 	lw t0, STACK_SIZE-16(sp)	# cargo size en t0
-	bnez v1, manejoError 		# capturo errores en leerLinea
-	bez t0, salidaExitosa		# si size<=0 entonces termino loop(eof)
-	mv a0, v0			# cargo en a0 el puntero a la linea leida
+	
+	bnez v1, manejoError 		# capturo errores en leerLinea	
+	beqz t0, salidaExitosa		# si size<=0 entonces termino loop(eof)
+	move a0, v0			# cargo en a0 el puntero a la linea leida
 	addiu a1, sp, STACK_SIZE-16	# cargo en a1 la direccion de size
 	jal invertirLinea		# llamo a invertir linea 
 	
 	#Imprimo linea en fdout
-	mv a1,a0			# copio en a1 el puntero a la linea leida
-	li v0, SYS_WRITE		# cargo en v0 el codigo de syscall Write	 
+	move a1,a0			# copio en a1 el puntero a la linea leida
+	li v0, SYS_write		# cargo en v0 el codigo de syscall Write	 
 	lw a0, STACK_SIZE+8(sp)		# cargo en a0 fdout 
-	lw STACK_SIZE-16(sp)		# cargo en a2 el size de la linea
+	lw a2,STACK_SIZE-16(sp)		# cargo en a2 el size de la linea
+	syscall				# escribo linea en fdout
+	blez v0, error_escritura	# manejo error_escritura
+	
+	#Imprimo salto de linea en fdout
+	li a1,barra_n			# copio en a1 el puntero al caracter a imprimir
+	li v0, SYS_write		# cargo en v0 el codigo de syscall Write	 
+	lw a0, STACK_SIZE+8(sp)		# cargo en a0 fdout 
+	li a2,1				# cargo en a2 el size de un char
 	syscall				# escribo linea en fdout
 	blez v0, error_escritura	# manejo error_escritura
 	
@@ -57,12 +65,12 @@ error_escritura:
 manejoError:
 	# TODO: Manejar error en v1 tengo codigo de error
 	move v0,v1 		# Devuelvo en v0 el codigo de error
-	b popStackInv
+	b popStackRev
 
 salidaExitosa:
 	li v0,0			# Cargo codigo de exito
 
-popStackInv:
+popStackRev:
 	lw $fp, STACK_SIZE-8(sp)
 	lw gp, STACK_SIZE-4(sp)
 	lw ra, STACK_SIZE(sp)
@@ -168,7 +176,7 @@ loop:
 non_realloc:
 	li t2,10
 	lw t1,0(s4)	
-	beq t1,t2,end_loop	# letra == '\n'
+	beq t1,t2,end_loop		#letra == '\n'
 	beqz t1,end_loop		# letra == EOF
 	b loop
 
@@ -234,11 +242,14 @@ return:
 
 .data
 .align 2
+.globl reverse_errmsg
 reverse_errmsg: .word sinError, error1, error2, error3, error4
 		.size reverse_errmsg, 16
 		.align 0
-sinError: .asciiz "error4"
+sinError: .asciiz "No hubo errores"
 error1: .asciiz "error1"
 error2: .asciiz "error2"
 error3: .asciiz "error3"
 error4: .asciiz "error4"
+
+barra_n: .ascii "\n"
