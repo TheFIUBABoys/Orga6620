@@ -62,12 +62,6 @@ popStackInv:
 .end invertirLinea
 
 
-.ent realloc
-realloc:
-#TODO
-.end realloc
-
-
 .globl leerLinea
 .ent leerLinea
 leerLinea:			# a0: fd al archivo, a1: puntero a largo
@@ -89,6 +83,7 @@ leerLinea:			# a0: fd al archivo, a1: puntero a largo
 
 	# Reservo memoria para la linea
 	li a0,TAM_INI_CADENA	# tamano para reservar memoria. Parametro de mymalloc
+	move t7,a0
 	jal mymalloc			# llamo a mymalloc
 	move s3,v0				# s3 <- return de mymalloc
 	beqz s3,error_malloc	# Si v0 == NULL -> error
@@ -116,10 +111,14 @@ loop:
 	
 	
 	# Chequeo si el indice de linea se fue de rango
-	#li t2,TAM_INI_CADENA
-	#bne t2,s2,non_realloc	# i != TAM
-	#move a0,s3
-	#jal realloc
+	li t2,TAM_INI_CADENA
+	bne t2,s2,non_realloc	# i != TAM
+	move a0,s3
+	sll a1,t7,2
+	move t7,a1
+	jal myrealloc
+	beqz v0,error_malloc
+	move s3,v0
 
 non_realloc:
 	li t2,10

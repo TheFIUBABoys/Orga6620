@@ -194,3 +194,62 @@ myfree_return:
 
 	j	ra
 	.end	myfree
+	
+	.globl	myrealloc
+	.ent	myrealloc
+myrealloc:
+
+	subu	sp, sp, 56
+	sw	ra, 48(sp)
+	sw	$fp, 44(sp)
+	sw	a1, 40(sp)  # Temporary: allocation size.
+	sw a0, 36(sp)	# Temporary: original pointer
+	sw zero, 32(sp)	# Temporary: new pointer (defaults to NULL)
+	move $fp, sp
+
+	move a0,a1		# Argument to create new allocation
+	jal mymalloc	# MyMalloc call
+	beqz v0,myrealloc_return	# Error allocating space
+	sw v0,32(sp)
+	
+	
+	lw t4,36(sp)	# Old ptr
+	lw t5,32(sp)	# New ptr
+	
+	move t0,zero	# Index
+	
+	lw t2,-4(t4)	# Old ptr size (getting it mmap style)
+	lw t3,40(sp)	# New ptr size
+	
+loop:
+	bge t0,t2,myrealloc_return_ok	# if index >= old_size or index >= new_size exit
+	bge t0,t3,myrealloc_return_ok	
+	
+	addu t6,t4,t0	# Current item address
+	lb t7,0(t6)		# Current item
+	
+	addu t6,t5,t0	# New address
+	sb t7,0(t6)
+	
+	addiu t0,t0,1	# New index
+	
+	b loop
+	
+myrealloc_return_ok:
+	move a0,t4
+	jal myfree
+
+myrealloc_return:
+	# Restore the return value.
+	#
+	lw	v0, 32(sp)
+
+	# Destroy the stack frame.
+	#
+	move	sp, $fp
+	lw	ra, 48(sp)
+	lw	$fp, 44(sp)
+	addu	sp, sp, 56
+
+	j	ra
+	.end	myrealloc
