@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2013.5.29)  19 NOV 2013 11:42
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2013.5.29)  19 NOV 2013 18:08
 entering extended mode
 **informe.tex
 (C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\informe\informe.tex
@@ -305,21 +305,24 @@ File: pppdftex.def 2012/08/31 v0.4t Pdfpages driver for pdfTeX (AM)
 \c@AM@survey=\count115
 \AM@templatesizebox=\box29
 )
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\indentfirst.sty"
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+)
 (C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\informe\informe.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -336,7 +339,7 @@ LaTeX Font Info:    ... okay on input line 26.
 \everyMPtoPDFconversion=\toks24
 )
 \AtBeginShipoutBox=\box31
-Package hyperref Info: Link coloring OFF on input line 26.
+Package hyperref Info: Link coloring OFF on input line 27.
  ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -345,9 +348,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count122
 )
-LaTeX Info: Redefining \ref on input line 26.
-LaTeX Info: Redefining \pageref on input line 26.
-LaTeX Info: Redefining \nameref on input line 26.
+LaTeX Info: Redefining \ref on input line 27.
+LaTeX Info: Redefining \pageref on input line 27.
+LaTeX Info: Redefining \nameref on input line 27.
 
 (C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\informe\informe.out)
 (C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\informe\informe.out)
@@ -389,15 +392,15 @@ LaTeX Info: Redefining \nameref on input line 26.
 
 \c@lstlisting=\count123
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 33.
+(Font)              <12> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 33.
+(Font)              <8> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 33.
+(Font)              <6> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 33.
+(Font)              <7> on input line 34.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 33.
+(Font)              <5> on input line 34.
 [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
@@ -408,7 +411,7 @@ File: lstlang1.sty 2004/09/05 1.3 listings language file
 File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 113.
+nput line 114.
 
 (C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\main.c
 LaTeX Font Info:    Try loading font information for OML+cmr on input line 1.
@@ -431,95 +434,95 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10> not available
 LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 60.
 )
-(C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\reverse.S [4] [5] [6] [7])
-[8] [9] <../enunciado.pdf, id=445, page=1, 614.295pt x 794.97pt>
+(C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\reverse.S [4] [5] [6] [7]
+[8]) [9] <../enunciado.pdf, id=460, page=1, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 1>
-Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 153.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 1>
-Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 1>
-Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 1>
-Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 1>
-Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page1 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
  [10 <C:/Users/Lucas/Documents/GitHub/Orga6620/tp1/enunciado.pdf>] <../enunciad
-o.pdf, id=472, page=2, 614.295pt x 794.97pt>
+o.pdf, id=487, page=2, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 2>
-Package pdftex.def Info: ../enunciado.pdf, page2 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page2 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 2>
-Package pdftex.def Info: ../enunciado.pdf, page2 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page2 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 2>
-Package pdftex.def Info: ../enunciado.pdf, page2 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page2 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
  [11 <C:/Users/Lucas/Documents/GitHub/Orga6620/tp1/enunciado.pdf>] <../enunciad
-o.pdf, id=493, page=3, 614.295pt x 794.97pt>
+o.pdf, id=508, page=3, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 3>
-Package pdftex.def Info: ../enunciado.pdf, page3 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page3 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 3>
-Package pdftex.def Info: ../enunciado.pdf, page3 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page3 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 3>
-Package pdftex.def Info: ../enunciado.pdf, page3 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page3 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
  [12 <C:/Users/Lucas/Documents/GitHub/Orga6620/tp1/enunciado.pdf>] <../enunciad
-o.pdf, id=498, page=4, 614.295pt x 794.97pt>
+o.pdf, id=513, page=4, 614.295pt x 794.97pt>
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 4>
-Package pdftex.def Info: ../enunciado.pdf, page4 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page4 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
  <use ../enunciado.pdf, page 4>
-Package pdftex.def Info: ../enunciado.pdf, page4 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page4 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
 File: ../enunciado.pdf Graphic file (type pdf)
 
 <use ../enunciado.pdf, page 4>
-Package pdftex.def Info: ../enunciado.pdf, page4 used on input line 127.
+Package pdftex.def Info: ../enunciado.pdf, page4 used on input line 153.
 (pdftex.def)             Requested size: 491.43666pt x 635.97687pt.
  [13 <C:/Users/Lucas/Documents/GitHub/Orga6620/tp1/enunciado.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 141.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 141.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
 
 (C:\Users\Lucas\Documents\GitHub\Orga6620\tp1\informe\informe.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 141.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 141.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
 Package rerunfilecheck Info: File `informe.out' has not changed.
-(rerunfilecheck)             Checksum: D62E477BC1B495DDB9A7B5865072F035;833.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 141.
+(rerunfilecheck)             Checksum: 735D7EFDEEEF83FC4251DC484069A595;909.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
  ) 
 Here is how much of TeX's memory you used:
- 9941 strings out of 493921
- 140628 string characters out of 3144876
- 421055 words of memory out of 3000000
- 12776 multiletter control sequences out of 15000+200000
+ 9965 strings out of 493921
+ 141105 string characters out of 3144876
+ 436192 words of memory out of 3000000
+ 12785 multiletter control sequences out of 15000+200000
  10192 words of font info for 36 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  40i,19n,52p,560b,2157s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -540,9 +543,9 @@ KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX
 onts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
 /type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on informe.pdf (13 pages, 323989 bytes).
+Output written on informe.pdf (13 pages, 327789 bytes).
 PDF statistics:
- 619 PDF objects out of 1000 (max. 8388607)
- 358 named destinations out of 1000 (max. 500000)
- 158 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 637 PDF objects out of 1000 (max. 8388607)
+ 370 named destinations out of 1000 (max. 500000)
+ 166 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -9,6 +9,7 @@
 \usepackage{mips}
 \usepackage{verbatim}
 \usepackage{pdfpages}
+\usepackage{indentfirst}
 
 \title{		\textbf{Versión en C del comando rev, con lógica en assembly}}
 
@@ -122,6 +123,31 @@ odnum aloH
 \item Se aprendió a compilar un programa en assembly y a linkearlo con código C.
 \item Uno de los puntos más importantes es la cantidad de líneas de código que se escribieron en las funciones de assembly comparadas con las de 
 C (mucho mayor). 
+\subsection{Comparación tp1 vs tp0}
+
+Se realizaron benchmarks sobre distintos archivos con ambos trabajos prácticos, a fin de determinar cual fue más rápido:
+
+\begin{itemize}
+\item \textbf{tp0:} sys time:  0m0.055s
+\item \textbf{tp1:} sys time:  0m0.492s
+\end{itemize}
+
+(Archivo de prueba utilizado: reverse.S [el código fuente]).
+
+Ante tanta diferencia se sospechó que el bottleneck podría estar en mymalloc, con lo que se diseño un benchmark para 
+confirmarlo (sys\textunderscore mmap/malloc\textunderscore benchmark.c). El benchmark consiste en 1000 mallocs de 40 (tamaño inicial utilizado al leer las líneas) + 1000 reallocs de 80 (doble del tamaño inicial) + 1000 frees. Los resultados fueron los siguientes:
+
+\begin{itemize}
+\item \textbf{mymalloc:} sys time:  0m0.879s
+\item \textbf{malloc:} sys time:  0m0.290s
+\end{itemize}
+
+Esta prueba permitió determinar que mymalloc es mucho más lento que el malloc de stdlib.h. Por lo tanto, 
+se supone que esta es la causa de que el tp0 sea el mucho más rápido que el tp1.
+
+Otra causa de la demora del tp1 podría deberse a que en el tp0 se escala el buffer de lectura en forma exponencial, en tanto que en 
+el tp1 debido a la dificultad de hacer esto en assembly se optó por hacerlo en forma constante, menos óptima.
+
 \end{itemize}
 \section{Enunciado}
 \includepdf[scale=0.8,pages={1,2,3,4}]{../enunciado.pdf}
