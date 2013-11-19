@@ -4,12 +4,13 @@
 \usepackage[ansinew]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{hyperref}
+\usepackage[top=2cm, bottom=1.5cm, left=2.5cm, right=1cm]{geometry}
 \usepackage{listings}
 \usepackage{mips}
 \usepackage{verbatim}
 \usepackage{pdfpages}
 
-\title{		\textbf{Versión en C del comando rev }}
+\title{		\textbf{Versión en C del comando rev, con lógica en assembly}}
 
 \author{	Lucas Simonelli, \textit{Padrón Nro. 93111}                     \\
             \texttt{ lucasp.simonelli@gmail.com }                                              \\[2.5ex]
@@ -34,12 +35,14 @@
 
 \begin{abstract}
 El presente trabajo consiste en la implementación de un programa, similar al comando rev de Unix, encargado de concatenar y escribir en stdout el contenido invertido de cada línea, de uno o más archivos pasados como parámetros.
-El mismo contiene adjunto el código fuente en lenguaje C, el código MIPS32 generado por el compilador y un instructivo para la compilación de código fuente. Además se incluyen algunos ejemplos de uso del programa, con el objetivo de mostrar su funcionalidad completamente, y se mencionan ciertos aspectos que consideramos importantes sobre el diseño e implementación del Programa.
+El manejo de parámetros se realizará en C, mientras que se implementará en assembly MIPS la función reverse(fd1, fd2), que dados dos fd, realiza la inversión del primero línea a línea y lo imprime al segundo.
 \end{abstract}
 
 \newpage
 \section{Introducción}
-El objetivo del trabajo desarrollado en este informe es familiarizarse con las herramientas a utilizar en trabajos posteriores. Entre ellas se destacan el compilador GCC y el programa GXemul, el cual se utilizará para simular un entorno de desarrollo de una máquina MIPS corriendo una versión del sistema operativo NetBSD. Para ello se implementará un programa con funcionalidad similar al rev de Unix\footnote{\url{http://linux.about.com/library/cmd/blcmdl_rev.htm}}.
+
+El objetivo del trabajo desarrollado en este informe es familiarizarse con el conjunto de instrucciones MIPS y el concepto de ABI,
+realizando en assembly MIPS una función que invierta línea a línea un archivo.
 
 \section{Función}
 El ejecutable tendrá el mismo objeto que el comando rev, es decir, leerá un archivo por alguno de los canales ofrecidos y lo invertirá línea a línea.
@@ -53,9 +56,9 @@ Algunas suposiciones realizadas y detalles de implementación fueron los siguient
  \item Cada caracter mide 1 byte. 
  \item El programa recibe como parámetros los archivos sobre los que trabajar. En caso de no recibir ningún parámetro, opera sobre los datos provenientes de stdin.
  \item Dividimos nuestro programa en 3 módulos básicos, cada uno de los cuales tiene una tarea específica.
- \subitem \textbf{leerLinea}: Se encarga, como su nombre lo indica, de leer caracter por caracter el contenido de una línea hasta encontrar el fin de archivo o el caracter de fin de línea. Recibe como parámetro el descriptor del archivo del que debe leer o el descriptor de stdin si este fuera el caso. Además recibe un puntero a un int donde almacenará el tamaño de la línea leida y un puntero a char pointer para almacenar los caracteres leidos. Devuelve 0 si la lectura fue exitosa o un número mayor a 0 si hubo un error.
- \subitem \textbf{invertirLinea}: Este módulo se utiliza para invertir el orden de aparición de los caracteres en una línea. De este modo, el último caracter de la línea quedará en primer lugar y el primero último, y de forma análoga se intercambiaran el resto de los caracteres. Recibe como parámetro un buffer con la línea en su estado original y devuelve en ese mismo buffer, la línea invertida.
- \subitem \textbf{main}: Por último, tenemos la función principal que se encarga de interpretar los parámetros con los que fue llamado el programa y llamar a los módulos antes mencionados cuando sea necesario. De acuerdo a los parámetros que le sean ingresados el programa se comportará de distinta manera: 
+ \subitem \textbf{leerLinea (ASM)}: Se encarga, como su nombre lo indica, de leer caracter por caracter el contenido de una línea hasta encontrar el fin de archivo o el caracter de fin de línea. Recibe como parámetro el descriptor del archivo del que debe leer o el descriptor de stdin si este fuera el caso. Además recibe un puntero a un int donde almacenará el tamaño de la línea leida y un puntero a char pointer para almacenar los caracteres leidos. Devuelve 0 si la lectura fue exitosa o un número mayor a 0 si hubo un error.
+ \subitem \textbf{invertirLinea (ASM)}: Este módulo se utiliza para invertir el orden de aparición de los caracteres en una línea. De este modo, el último caracter de la línea quedará en primer lugar y el primero último, y de forma análoga se intercambiaran el resto de los caracteres. Recibe como parámetro un buffer con la línea en su estado original y devuelve en ese mismo buffer, la línea invertida.
+ \subitem \textbf{main (C)}: Por último, tenemos la función principal que se encarga de interpretar los parámetros con los que fue llamado el programa y llamar a los módulos antes mencionados cuando sea necesario. De acuerdo a los parámetros que le sean ingresados el programa se comportará de distinta manera: 
  \subsubitem Si recibe como párametro '-h' muestra por pantalla una breve explicación del uso del programa.
  \subsubitem En caso de recibir el parámetro '-V' muestra la versión del programa en ejecución.
  \subsubitem De no recibir parámetros lee por entrada standard e invierte el contenido de cada línea.
@@ -67,58 +70,59 @@ Retorna 0 si la ejecución fue exitosa o un número mayor a 0 en otro caso.
 Para compilar el programa, deberá introducirse el siguiente comando:
 \begin{verbatim}
 #compilamos
-~$gcc -o tp0 main.c
+~$make
 
 #corremos
-~$./tp0 [archivo]
+~$./tp1 [archivo] [opciones]
 \end{verbatim}
 
 \subsection{Sintaxis de uso}
 \begin{verbatim}
-$ ./tp0 -h
+$ ./tp1 -h
 Usage:
-./tp0 -h
-./tp0 -V
-./tp0 [file...]
+./tp1 -h
+./tp1 -V
+./tp1 [file...]
 Options:
 -V, --version, print version and quit.
 -h, --help, print this information and quit.
 
 Examples:
-./tp0 foo.txt bar.txt
-./tp0 gz.txt
-echo "Hola mundo" | ./tp0
+./tp1 foo.txt bar.txt
+./tp1 gz.txt
+echo "Hola mundo" | ./tp1
 \end{verbatim}
 
 \section{Corridas de prueba}
 (Los archivos se facilitan junto con este informe en la entrega digital)
 \subsection{Corrida con archivo de parámetro}
 \begin{verbatim}
-~$./tp0 ejemplo.txt
+~$./tp1 ejemplo.txt
 1elif ed aenil aremirp al se atsE
 .adnuges al se atse y
 
 \end{verbatim}
 \subsection{Corrida con entrada de stdin}
 \begin{verbatim}
-~$echo "Hola mundo" | ./tp0
+~$echo "Hola mundo" | ./tp1
 odnum aloH
 \end{verbatim}
 
 \section{Código fuente}
-\lstinputlisting[language=C]{../main.c}
+\subsection{main.c}
+\lstinputlisting[language=C,breaklines=true]{../main.c}
 
-\section{Código MIPS32}
-\lstset{language=[mips]Assembler}
-\lstinputlisting{../fuente.mips}
+\subsection{reverse.S}
+\lstset{language=[mips]Assembler,breaklines=true}
+\lstinputlisting{../reverse.S}
 
 \section{Conclusiones}
-
-La utilización del emulador GXemul nos permitió simular una máquina MIPS en la que corrimos como sistema operativo una versión de NETBSD. Además, utilizamos como sistema operativo host Linux en un arquitectura INTEL. Con la compilación de nuestro código C y su posterior ejecución en ambas arquitecturas con sistemas operativos diferentes pudimos comprobar la portabilidad de nuestro código.
-Por otro lado, luego de utilizar el compilador GCC para obtener el código Assembler de nuestro programa y compararlo con el código C del mismo, pudimos observar la enorme diferencia entre el número de instrucciones de un lenguaje de bajo nivel(Assembler) y uno de alto nivel(C).
-
-
-
+\begin{itemize}
+\item Se utilizó la ABI y se aprendieron las convenciones.
+\item Se aprendió a compilar un programa en assembly y a linkearlo con código C.
+\item Uno de los puntos más importantes es la cantidad de líneas de código que se escribieron en las funciones de assembly comparadas con las de 
+C (mucho mayor). 
+\end{itemize}
 \section{Enunciado}
 \includepdf[scale=0.8,pages={1,2,3,4}]{../enunciado.pdf}
 
