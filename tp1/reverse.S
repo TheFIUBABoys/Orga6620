@@ -80,8 +80,8 @@ invertirLinea: #t0->linea, t1->len
 	sw gp, 4(sp)
 	sw a0, 12(sp)
 	sw a1, 16(sp)
-	mv t0, a0
-	mv t1, a1
+	move t0, a0
+	move t1, a1
 	beqz t0, popStackInv  
 	li t2, 0 #i->t2
 	addiu t1, t1, -1 #t1->l-1     
