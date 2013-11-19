@@ -51,7 +51,7 @@ int main(int argc, char** argv){
 		}
 
 	int i = 0;
-	
+	int res = 0;
 	while (i < nFiles){
 		if (! noFile){
 			file = open(argv[i+1],O_RDONLY);
@@ -61,7 +61,7 @@ int main(int argc, char** argv){
 			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
 			exit(1);
 		} else { 
-			int res=reverse(file, 1); // 1 es stdout
+			res=reverse(file, 1); // 1 es stdout
 			
 			/* 
 			//	LEER LINEA DEBUG MODE: ON
@@ -72,11 +72,13 @@ int main(int argc, char** argv){
 			*/
 			
 			close(file);
-			if(res!=0)
+			if(res != 0){
+				printf(*(reverse_errmsg[res]));
 				return res;
+			}
 		}
 		i++;
 	}
-	
+	printf(*(reverse_errmsg[res]));
 	return 0;
 }
