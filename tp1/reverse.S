@@ -11,6 +11,8 @@
 .ent reverse
 reverse: 	#variables locales: t0->int size  
 	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 a2 a3+ size +1 padding
+	li t0,10 		# '/n'
+	sb t0, STACK_SIZE-20(sp)
 	sw $fp, STACK_SIZE-8(sp)
 	sw gp, STACK_SIZE-4(sp)
 	sw ra, STACK_SIZE(sp)
@@ -28,7 +30,7 @@ mientras:
 	bnez v1, manejoError 		# capturo errores en leerLinea	
 	beqz t0, salidaExitosa		# si size<=0 entonces termino loop(eof)
 	move a0, v0			# cargo en a0 el puntero a la linea leida
-	lw a1, STACK_SIZE-16(sp)	# cargo en a1 la direccion de size
+	move a1,t0			# cargo en a1 la direccion de size
 	jal invertirLinea		# llamo a invertir linea 
 	
 	#Imprimo linea en fdout
@@ -39,17 +41,17 @@ mientras:
 	syscall				# escribo linea en fdout
 	blez v0, error_escritura	# manejo error_escritura
 	
-	#Imprimo salto de linea en fdout
-	li a1,barra_n			# copio en a1 el puntero al caracter a imprimir
-	li v0, SYS_write		# cargo en v0 el codigo de syscall Write	 
-	lw a0, STACK_SIZE+8(sp)		# cargo en a0 fdout 
-	li a2,1				# cargo en a2 el size de un char
-	syscall				# escribo linea en fdout
-	blez v0, error_escritura	# manejo error_escritura
-	
 	move a0,a1			# cargo en a0 linea leida
 	jal myfree			# libero linea
 	bnez v0, error_free2		# chequeo error en liberacion
+	
+	#Imprimo salto de linea en fdout
+	addu a1,sp,STACK_SIZE-20		# copio en a1 el puntero a la linea leida
+	li v0, SYS_write			# cargo en v0 el codigo de syscall Write	 
+	li a0, 1		# cargo en a0 fdout 
+	li a2,1					# cargo en a2 el size de la linea
+	syscall				# escribo linea en fdout
+	blez v0, error_escritura	# manejo error_escritura
 			
 	j mientras			# repito mientras 
 
@@ -94,7 +96,7 @@ invertirLinea: #t0->linea, t1->len
 	li t2, 0 #i->t2
 	addiu t1, t1, -1 #t1->l-1     
 while:
-	bgt t1, t2, popStackInv
+	bgt t2, t1, popStackInv
 	addu t5, t0, t2 # t5 = t0+t2
 	lb t3, 0(t5) #t3 = aux = linea[i];
 	addu t6, t0, t1 # t6 = t0+t1
@@ -251,5 +253,3 @@ error1: .asciiz "error1"
 error2: .asciiz "error2"
 error3: .asciiz "error3"
 error4: .asciiz "error4"
-
-barra_n: .ascii "\n"
