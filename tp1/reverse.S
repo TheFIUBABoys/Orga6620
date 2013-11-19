@@ -28,7 +28,7 @@ mientras:
 	bnez v1, manejoError 		# capturo errores en leerLinea	
 	beqz t0, salidaExitosa		# si size<=0 entonces termino loop(eof)
 	move a0, v0			# cargo en a0 el puntero a la linea leida
-	addiu a1, sp, STACK_SIZE-16	# cargo en a1 la direccion de size
+	lw a1, STACK_SIZE-16(sp)	# cargo en a1 la direccion de size
 	jal invertirLinea		# llamo a invertir linea 
 	
 	#Imprimo linea en fdout
