@@ -163,6 +163,7 @@ loop:
 	li a2,1					# 3er param -> chars a leer (1 en este caso, solo leo una letra)
 	syscall
 	bltz v0,error_lectura
+	move t3,v0				# guardo cant de caracteres leidos en t3
 	
 	# Copio la letra leida en la linea
 	lb t1,0(s4)				# *letra -> t1
@@ -184,7 +185,8 @@ loop:
 non_realloc:
 	li t2,10
 	lw t1,0(s4)	
-	beq t1,t2,end_loop		#letra == '\n'
+	beq t1,t2,end_loop		# letra == '\n'
+	bgtz t3, loop			# sigue en el loop si leyo caracter nulo
 	beqz t1,end_loop		# letra == EOF
 	b loop
 
