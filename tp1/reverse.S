@@ -186,9 +186,8 @@ non_realloc:
 	li t2,10
 	lw t1,0(s4)	
 	beq t1,t2,end_loop		# letra == '\n'
-	bgtz t3, loop			# sigue en el loop si leyo caracter nulo
-	beqz t1,end_loop		# letra == EOF
-	b loop
+	blez t3, end_loop		# size menor o igual a cero => letra == EOF		
+	b loop				
 
 end_loop:
 	addi s2,-1				# i-1 para pisar el ultimo char almacenado (\n o eof)
