@@ -58,7 +58,7 @@ int main(int argc, char** argv){
 		}
 		
 		if(file < 0){ // file < 0 es error
-			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.",argv[i+1]);
+			fprintf(stderr,"An error has occurred while opening file %s\n. The program will exit now.\n",argv[i+1]);
 			exit(1);
 		} else { 
 			res=reverse(file, 1); // 1 es stdout
@@ -73,12 +73,11 @@ int main(int argc, char** argv){
 			
 			close(file);
 			if(res != 0){
-				printf("%s\n",reverse_errmsg[res]);
+				fprintf(stderr,"%s\n",reverse_errmsg[res]);
 				return res;
 			}
 		}
 		i++;
 	}
-	printf("%s\n",reverse_errmsg[res]);
 	return 0;
 }
