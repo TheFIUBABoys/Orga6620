@@ -40,7 +40,7 @@ mientras:
         lw a0, STACK_SIZE+8(sp)                # cargo en a0 fdout 
         lw a2,STACK_SIZE-16(sp)                # cargo en a2 el size de la linea
         syscall                                # escribo linea en fdout
-        blez v0, error_escritura        # manejo error_escritura
+        bnez a3, error_escritura  			# manejo error_escritura
         
         move a0,a1                        # cargo en a0 linea leida
         jal myfree                        # libero linea
@@ -52,7 +52,7 @@ mientras:
         li a0, 1                # cargo en a0 fdout 
         li a2,1                                        # cargo en a2 el size de la linea
         syscall                                # escribo linea en fdout
-        blez v0, error_escritura        # manejo error_escritura
+        bnez a3, error_escritura  			# manejo error_escritura
                         
         j mientras                        # repito mientras 
 
@@ -158,8 +158,8 @@ loop:
         move a1,s4                                # 2do param -> ptr al buffer(letra)
         li a2,1                                        # 3er param -> chars a leer (1 en este caso, solo leo una letra)
         syscall
-        bltz v0,error_lectura	# size menor a cero => error
-        beqz v0,end_eof  		# size igual a cero => letra == EOF  
+        bnez a3, error_lectura  		# manejo error_lectura
+        beqz v0,end_eof  				# size igual a cero => letra == EOF  
         
         # Copio la letra leida en la linea
         lb t1,0(s4)                                # *letra -> t1
