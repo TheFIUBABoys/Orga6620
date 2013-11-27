@@ -27,8 +27,9 @@ mientras:
 	jal leerLinea			# llamo a leer linea
 	lw t0, STACK_SIZE-16(sp)	# cargo size en t0
 	
+	beq v1,5,salidaExitosa
 	bnez v1, manejoError 		# capturo errores en leerLinea	
-	beqz t0, salidaExitosa		# si size<=0 entonces termino loop(eof)
+	beqz t0, mientras		# si size<=0 entonces termino loop(eof)
 	move a0,v0			# cargo en a0 el puntero a la linea leida
 	move a1,t0			# cargo en a1 la direccion de size
 	jal invertirLinea		# llamo a invertir linea 
@@ -121,14 +122,15 @@ popStackInv:
 .ent leerLinea
 leerLinea:			# a0: fd al archivo, a1: puntero a largo
 	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 + 3 padding
-	sw $fp, STACK_SIZE-28(sp)
-	sw gp, STACK_SIZE-24(sp)
-	sw ra, STACK_SIZE-20(sp)
-	sw s0, STACK_SIZE-16(sp)
-	sw s1, STACK_SIZE-12(sp)
-	sw s2, STACK_SIZE-8(sp)
-	sw s3, STACK_SIZE-4(sp)
-	sw s4, STACK_SIZE(sp)
+	sw $fp, STACK_SIZE-32(sp)
+	sw gp, STACK_SIZE-28(sp)
+	sw ra, STACK_SIZE-24(sp)
+	sw s0, STACK_SIZE-20(sp)
+	sw s1, STACK_SIZE-16(sp)
+	sw s2, STACK_SIZE-12(sp)
+	sw s3, STACK_SIZE-8(sp)
+	sw s4, STACK_SIZE-4(sp)
+	sw s5, STACK_SIZE(sp)	
 	sw a0, STACK_SIZE+4(sp)
 	sw a1, STACK_SIZE+8(sp)
 	
@@ -138,7 +140,7 @@ leerLinea:			# a0: fd al archivo, a1: puntero a largo
 
 	# Reservo memoria para la linea
 	li a0,TAM_INI_CADENA	# tamano para reservar memoria. Parametro de mymalloc
-	move t7,a0
+	move s5,a0
 	jal mymalloc			# llamo a mymalloc
 	move s3,v0				# s3 <- return de mymalloc
 	beqz s3,error_malloc	# Si v0 == NULL -> error
@@ -166,22 +168,39 @@ loop:
 	
 	
 	# Chequeo si el indice de linea se fue de rango
-	li t2,TAM_INI_CADENA
-	bne t2,s2,non_realloc	# i != TAM
+	blt s2,s5,non_realloc	# i != TAM
 	move a0,s3
-	sll a1,t7,2
-	move t7,a1
+	sll a1,s5,1
 	jal myrealloc
 	beqz v0,error_malloc
+	move s5,a1
 	move s3,v0
 
 non_realloc:
 	li t2,10
 	lw t1,0(s4)	
 	beq t1,t2,end_loop		#letra == '\n'
-	beqz t1,end_loop		# letra == EOF
+	beqz t1,end_eof		# letra == EOF
 	b loop
 
+end_eof:
+	addi s2,-1				# i-1 para pisar el ultimo char almacenado (\n o eof)
+	addu t2,s3,s2		# linea[i] -> t2
+	li t1,0				
+	sb t1,0(t2)				# linea[i] = '\0'
+	
+	# Libero letra
+	move a0,s4
+	jal myfree
+	bnez v0,error_free
+	
+	bnez s2,return_ok
+	move a0,s3			# Largo 0, libero linea
+	jal myfree
+	bnez v0,error_free
+	li v1,5		# codigo de error en 5
+	b zero_length
+	
 end_loop:
 	addi s2,-1				# i-1 para pisar el ultimo char almacenado (\n o eof)
 	addu t2,s3,s2		# linea[i] -> t2
@@ -228,14 +247,15 @@ return_ok:
 	b return
 	
 return:	
-	lw $fp, STACK_SIZE-28(sp)
-	lw gp, STACK_SIZE-24(sp)
-	lw ra, STACK_SIZE-20(sp)
-	lw s0, STACK_SIZE-16(sp)
-	lw s1, STACK_SIZE-12(sp)
-	lw s2, STACK_SIZE-8(sp)
-	lw s3, STACK_SIZE-4(sp)
-	lw s4, STACK_SIZE(sp)
+	lw $fp, STACK_SIZE-32(sp)
+	lw gp, STACK_SIZE-28(sp)
+	lw ra, STACK_SIZE-24(sp)
+	lw s0, STACK_SIZE-20(sp)
+	lw s1, STACK_SIZE-16(sp)
+	lw s2, STACK_SIZE-12(sp)
+	lw s3, STACK_SIZE-8(sp)
+	lw s4, STACK_SIZE-4(sp)
+	lw s5, STACK_SIZE(sp)	
 	lw a0, STACK_SIZE+4(sp)
 	lw a1, STACK_SIZE+8(sp)
 	addiu sp, sp, STACK_SIZE
