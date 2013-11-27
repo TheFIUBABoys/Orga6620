@@ -10,7 +10,12 @@
 .globl reverse #a0->fdin, a1->fdout
 .ent reverse
 reverse:         #variables locales: t0->int size  
+        .frame	$fp,STACK_SIZE,ra
+		.set	noreorder
+		.cpload	t9
+		.set	reorder
         subu sp, sp, STACK_SIZE        #ra, $fp, gp + a0 a1 a2 a3+ size +1 padding
+        .cprestore 16
         li t0,10                 # '/n'
         sb t0, STACK_SIZE-20(sp)
         sw $fp, STACK_SIZE-8(sp)
@@ -121,7 +126,12 @@ popStackInv:
 .globl leerLinea
 .ent leerLinea
 leerLinea:                        # a0: fd al archivo, a1: puntero a largo
+        .frame	$fp,STACK_SIZE,ra
+		.set	noreorder
+		.cpload	t9
+		.set	reorder
         subu sp, sp, STACK_SIZE        #ra, $fp, gp + a0 a1 + 3 padding
+        .cprestore 16
         sw $fp, STACK_SIZE-32(sp)
         sw gp, STACK_SIZE-28(sp)
         sw ra, STACK_SIZE-24(sp)
