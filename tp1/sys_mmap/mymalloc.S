@@ -198,8 +198,9 @@ myfree_return:
         .globl        myrealloc
         .ent        myrealloc
 myrealloc:
-
+		.frame sp,56,ra
         subu        sp, sp, 56
+        .cprestore
         sw        ra, 48(sp)
         sw        $fp, 44(sp)
         sw        a1, 40(sp)  # Temporary: allocation size.

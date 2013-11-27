@@ -86,7 +86,7 @@ popStackRev:
 
 .ent invertirLinea
 invertirLinea: #t0->linea, t1->len
-        subu sp, sp, 8        # $fp, gp
+	    subu sp, sp, 8        # $fp, gp
         sw $fp, 0(sp)        
         sw gp, 4(sp)
         sw a0, 12(sp)
@@ -158,7 +158,8 @@ loop:
         move a1,s4                                # 2do param -> ptr al buffer(letra)
         li a2,1                                        # 3er param -> chars a leer (1 en este caso, solo leo una letra)
         syscall
-        bltz v0,error_lectura
+        bltz v0,error_lectura	# size menor a cero => error
+        beqz v0,end_eof  		# size igual a cero => letra == EOF  
         
         # Copio la letra leida en la linea
         lb t1,0(s4)                                # *letra -> t1
@@ -180,11 +181,9 @@ non_realloc:
         li t2,10
         lw t1,0(s4)        
         beq t1,t2,end_loop                #letra == '\n'
-        beqz t1,end_eof                # letra == EOF
         b loop
 
 end_eof:
-        addi s2,-1                                # i-1 para pisar el ultimo char almacenado (\n o eof)
         addu t2,s3,s2                # linea[i] -> t2
         li t1,0                                
         sb t1,0(t2)                                # linea[i] = '\0'
