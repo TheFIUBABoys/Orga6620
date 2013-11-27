@@ -9,8 +9,10 @@
 .align 2
 .globl reverse #a0->fdin, a1->fdout
 .ent reverse
-reverse: 	#variables locales: t0->int size  
+reverse: 	#variables locales: t0->int size
+	.frame $fp, STACK_SIZE, ra  
 	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 a2 a3+ size +1 padding
+	.cprestore 16
 	li t0,10 		# '/n'
 	sb t0, STACK_SIZE-20(sp)
 	sw $fp, STACK_SIZE-8(sp)
@@ -40,7 +42,7 @@ mientras:
 	lw a0, STACK_SIZE+8(sp)		# cargo en a0 fdout 
 	lw a2,STACK_SIZE-16(sp)		# cargo en a2 el size de la linea
 	syscall				# escribo linea en fdout
-	blez v0, error_escritura	# manejo error_escritura
+	bnez a3, error_escritura	# manejo error_escritura
 	
 	move a0,a1			# cargo en a0 linea leida
 	jal myfree			# libero linea
@@ -52,7 +54,7 @@ mientras:
 	li a0, 1		# cargo en a0 fdout 
 	li a2,1					# cargo en a2 el size de la linea
 	syscall				# escribo linea en fdout
-	blez v0, error_escritura	# manejo error_escritura
+	bnez a3, error_escritura	# manejo error_escritura
 			
 	j mientras			# repito mientras 
 
@@ -86,7 +88,9 @@ popStackRev:
 
 .ent invertirLinea
 invertirLinea: #t0->linea, t1->len
+	.frame $fp, 8, ra
 	subu sp, sp, 8	# $fp, gp
+	.cprestore 16
 	sw $fp, 0(sp)	
 	sw gp, 4(sp)
 	sw a0, 12(sp)
@@ -121,7 +125,9 @@ popStackInv:
 .globl leerLinea
 .ent leerLinea
 leerLinea:			# a0: fd al archivo, a1: puntero a largo
+	.frame	$fp,STACK_SIZE, ra
 	subu sp, sp, STACK_SIZE	#ra, $fp, gp + a0 a1 + 3 padding
+	.cprestore 16
 	sw $fp, STACK_SIZE-32(sp)
 	sw gp, STACK_SIZE-28(sp)
 	sw ra, STACK_SIZE-24(sp)
@@ -158,7 +164,8 @@ loop:
 	move a1,s4				# 2do param -> ptr al buffer(letra)
 	li a2,1					# 3er param -> chars a leer (1 en este caso, solo leo una letra)
 	syscall
-	bltz v0,error_lectura
+	bnez a3,error_lectura
+	move t3,v0				# guardo cant de caracteres leidos en t3
 	
 	# Copio la letra leida en la linea
 	lb t1,0(s4)				# *letra -> t1
@@ -180,7 +187,7 @@ non_realloc:
 	li t2,10
 	lw t1,0(s4)	
 	beq t1,t2,end_loop		#letra == '\n'
-	beqz t1,end_eof		# letra == EOF
+	blez t3,end_eof		# letra == EOF
 	b loop
 
 end_eof:

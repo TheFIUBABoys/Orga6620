@@ -24,7 +24,9 @@
 	.globl	mymalloc
 	.ent	mymalloc
 mymalloc:
+	.frame	$fp,56, ra
 	subu	sp, sp, 56
+	.cprestore 16
 	sw	ra, 48(sp)
 	sw	$fp, 44(sp)
 	sw	a0, 40(sp)  # Temporary: original allocation size.
@@ -132,7 +134,9 @@ mymalloc_return:
 	.globl	myfree
 	.ent	myfree
 myfree:
+	.frame	$fp,40,ra
 	subu	sp, sp, 40
+	.cprestore 16
 	sw	ra, 32(sp)
 	sw	$fp, 28(sp)
 	sw	a0, 24(sp)  # Temporary: argument pointer.
@@ -198,15 +202,14 @@ myfree_return:
 	.globl	myrealloc
 	.ent	myrealloc
 myrealloc:
-
+	.frame	$fp,56,ra
 	subu	sp, sp, 56
+	.cprestore 16	
 	sw	ra, 48(sp)
 	sw	$fp, 44(sp)
 	sw	a1, 40(sp)  # Temporary: allocation size.
 	sw a0, 36(sp)	# Temporary: original pointer
 	sw zero, 32(sp)	# Temporary: new pointer (defaults to NULL)
-	move $fp, sp
-
 	move a0,a1		# Argument to create new allocation
 	jal mymalloc	# MyMalloc call
 	beqz v0,myrealloc_return	# Error allocating space
@@ -251,5 +254,5 @@ myrealloc_return:
 	lw	$fp, 44(sp)
 	addu	sp, sp, 56
 
-	j	ra
+	jr	ra
 	.end	myrealloc
